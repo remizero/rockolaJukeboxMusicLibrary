@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/RockolaResources">
+        <file>resources/sql/extensions.sql</file>
+        <file>resources/sql/genres.sql</file>
+        <file>resources/sql/headers.sql</file>
+        <file>resources/sql/languages.sql</file>
+        <file>resources/sql/mediaDevices.sql</file>
+        <file>resources/sql/mediaTypes.sql</file>
+        <file>resources/sql/moods.sql</file>
+        <file>resources/sql/ratings.sql</file>
+        <file>resources/sql/settings.sql</file>
+        <file>resources/sql/situations.sql</file>
+        <file>resources/sql/tempos.sql</file>
+        <file>resources/sql/tracks.sql</file>
+        <file>resources/sql/typeFormats.sql</file>
+    </qresource>
+</RCC>

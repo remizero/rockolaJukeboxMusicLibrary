@@ -1,11 +1,23 @@
-#include "MainWindow.h"
+
+// Librerías Qt
 #include <QApplication>
 
-int main(int argc, char *argv[])
-{
-  QApplication a(argc, argv);
-  MainWindow w;
-  w.show();
+// Librerías de la Aplicación
+#include "MainWindow.h"
 
-  return a.exec();
+// Librerías Externas
+
+int main ( int argc, char *argv [] ) {
+
+  // Se inicializan los recursos internos de la aplicación
+  Q_INIT_RESOURCE ( rockolaresources );
+
+  QApplication a ( argc, argv );
+
+  // Se carga el controlador de base de datos
+  RockolaDbManager *rockolaDbConnection = new RockolaDbManager ();
+
+  MainWindow w;
+  w.show ();
+  return a.exec ();
 }

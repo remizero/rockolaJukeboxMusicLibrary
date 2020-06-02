@@ -1,0 +1,92 @@
+CREATE TABLE `headers` (
+  `id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  `codFrame`	TEXT NOT NULL,
+  `headerEN`	TEXT NOT NULL,
+  `descriptionEN`	TEXT NOT NULL,
+  `headerES`	TEXT NOT NULL,
+  `descriptionES`	TEXT NOT NULL
+);
+
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "UFID", "File Id", "Unique file identifier", "Id de Archivo", "Identificador de Archivo Único" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TALB", "Album", "Album/Movie/Show title", "Álbum", "Álbum/Película/Título del Programa" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TIT1", "Category", "Content group description", "Categoría", "Descripción del grupo de Contenido" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TIT2", "Songname", "Title/songname/content description", "Nombre de la Canción", "Título/Nombre de la Canción/Descripción del Contenido" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TIT3", "Subtitle", "Subtitle/Description refinement", "Subtítulo", "Subtítulo/Descripción Refinamiento" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TOAL", "Original Album", "Original album/movie/show title", "Álbum Original", "Álbum Original/Película/Título del Programa" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPOS", "# of Discs", "Part of a set", "# de Discos", "Parte de Conjunto" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TRCK", "Track #", "Track number/Position in set", "# de Pista", "Número de Pista/Posición en el Conjunto" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TSRC", "ISRC", "ISRC (international standard recording code)", "ISRC", "ISRC (Código de Grabación Estándar Internacional)" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TSST", "Set subtitle", "Set subtitle", "Establecer subtítulo", "Establecer subtítulo" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TCOM", "Composer", "Composer", "Compositor", "Compositor" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TENC", "Encoded by", "Encoded by", "Codificado por", "Codificado por" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TEXT", "Lyricist", "Lyricist/Text writer", "Letrista", "Letrista/Escritor del Texto" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TIPL", "People List", "Involved people list", "", "Lista de Personas Involucradas" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TMCL", "Musicians", "Musician credits list", "Músicos", "Lista de Músicos Acreditados" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TOLY", "Original Lyricist", "Original lyricist(s)/text writer(s)", "Letrista Original", "Letrista Original/Escritor del Texto Original" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TOPE", "Original Artist", "Original artist(s)/performer(s)", "Artista Original", "Artista Original/Interprete Original" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPE1", "Leader", "Lead performer(s)/Soloist(s)", "Interprete Principal", "Interprete Principal/Solista" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPE2", "Accompaniment", "Band/orchestra/accompaniment", "Acompañamiento", "Banda/Orquesta/Acompañamiento" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPE3", "Performer", "Conductor/performer refinement", "Intérprete", "Refinamiento del conductor/intérprete" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPE4", "Interpreted", "Interpreted, remixed, or otherwise modified by", "Interpretado", "Interpretado, remezclado o modificado de otra manera por" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TXXX", "User", "User defined text information frame", "Usuario", "Marco de información de texto definido por el usuario" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TBPM", "BPM", "BPM (beats per minute)", "BPM", "BPM (Beats por Minuto)" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TCON", "Content", "Content type", "Contenido", "Tipo de contenido" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TFLT", "File Type", "File type", "Tipo de Archivo", "Tipo de Archivo" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TKEY", "Key", "Initial key", "Clave", "Clave Inicial" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TLAN", "Language", "Language(s)", "Idioma", "Idioma de la Canción" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TLEN", "Length", "Length", "Tamaño", "Tamaño de la Canción" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TMED", "Media Type", "Media type", "", "Tipo de Medios" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TMOO", "Mood", "Mood", "Ánimo", "Ánimo" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TCOP", "Copyright", "Copyright message", "Copyright", "Mensaje de Derecho de Autor" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TOWN", "License", "File owner/licensee", "Licencia", "Propietario del Archivo/Licencia" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPRO", "Notice", "Produced notice", "Aviso", "Aviso producido" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TPUB", "Publisher", "Publisher", "Publicista", "Publicista" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TRSN", "Radio station name", "Internet radio station name", "Nombre Estación de Radio", "Nombre de la Estación de Radio de Internet" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TRSO", "Radio station owner", "Internet radio station owner", "Propietario Estación de Radio", "Propietario de la Estación de Radio de Internet" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TDEN", "Encoding time", "Encoding time", "Año de Codificación", "Año de Codificación" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TDLY", "Delay", "Playlist delay", "", "Lista de Reproducción Diferida" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TDOR", "Original Release", "Original release time", "", "" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TDRC", "Recording", "Recording time", "Año de Grabación", "Año de Grabación" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TDRL", "Release", "Release time", "Año de Lanzamiento", "Año de Lanzamiento" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TDTG", "Tagging", "Tagging time", "Año de Etiquetado", "Año de Etiquetado" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TOFN", "Original filename", "Original filename", "Nombre de Archivo Original", "Nombre de Archivo Original" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TSOA", "Album order", "Album sort order", "Clasificación del Álbum", "Orden de clasificación del Álbum" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TSOP", "Performer order", "Performer sort order", "Clasificación del Intérprete", "Orden de clasificación del Intérprete" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TSOT", "Title order", "Title sort order", "Clasificación del Título", "Orden de clasificación del Título" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "TSSE", "Settings", "Software/Hardware and settings used for encoding", "Configuración", "Software/Hardware y configuración usada para codificar" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WCOM", "Info Com", "Commercial information", "Inf. Com.", "Información Comercial" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WCOP", "Copyright", "Copyright/Legal information", "Copyright", "Derechos de Autor" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WOAF", "Audio Webpage", "Official audio file webpage", "Web Audio", "Página oficial del archivo de audio" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WOAR", "Artist Webpage", "Official artist/performer webpage", "Web Artista", "Página oficial del artista/intérprete" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WOAS", "Source Webpage", "Official audio source webpage", "Web Fuente", "Página web oficial de fuente de audio" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WORS", "Radio Webpage", "Official Internet radio station homepage", "Web Radio", "Página oficial de la estación de radio por Internet" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WPAY", "Payment", "Payment", "Pago", "Pago" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WPUB", "Webpage Publisher", "Publishers official webpage", "", "" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "WXXX", "URL User", "User defined URL link frame", "URL Usuario", "URL definido por el usuario" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "MCDI", "MCDI", "Music CD identifier", "MCDI", "Identificador de CD de Música" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "ETCO", "Event timing", "Event timing codes", "Cronometraje de eventos", "Códigos de cronometraje de eventos" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "MLLT", "MPEG table", "MPEG location lookup table", "Tabla MPEG", "Tabla de búsqueda de ubicación MPEG" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "SYTC", "Synchronised tempo", "Synchronised tempo codes", "Tempo Sincronizado", "Códigos sincronizados de tempo" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "USLT", "Unsynchronised lyric", "Unsynchronised lyric/text transcription", "Letra No Sincronizada", "Letra/Texto No Sincronizado" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "SYLT", "Synchronised lyric", "Synchronised lyric/text", "Letra Sincronizada", "Letra/Texto Sincronizado" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "COMM", "Comments", "Comments", "Comentarios", "Comentarios" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "RVA2", "Volume", "Relative volume adjustment (2)", "Volumen", "Ajuste de Volumen Relativo" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "EQU2", "EQ", "Equalisation (2)", "EQ", "Ecualización" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "RVRB", "Reverb", "Reverb", "Reverberación", "Reverberación" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "APIC", "Cover Art", "Attached picture", "Carátula", "Imágen Añadida" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "GEOB", "Object", "General encapsulated object", "Objeto", "Objeto encapsulado general" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "PCNT", "Play Counter", "Play counter", "Contador", "Contador de Reproducción" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "POPM", "Rating", "Popularimeter", "Valoración", "Popularímetro" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "RBUF", "Buffer", "Recommended buffer size", "Buffer", "Tamaño de Buffer Recomendado" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "AENC", "Encryption", "Audio encryption", "Encriptación", "Encriptación de audio" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "LINK", "Linked", "Linked information", "Enlace", "Información enlazada" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "POSS", "Position synchronisation", "Position synchronisation frame", "Sincronización de posición", "Marco de sincronización de posición" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "USER", "Terms", "Terms of use", "Términos", "Términos de Uso" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "OWNE", "Ownership", "Ownership frame", "Propiedad", "Marco de Propiedad" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "COMR", "Commercial", "Commercial frame", "Comercial", "Marco Comercial" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "ENCR", "Encryption method", "Encryption method registration", "Método de encriptación", "Registro de método de encriptación" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "GRID", "Group identification", "Group identification registration", "Identificación grupal", "Registro de identificación grupal" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "PRIV", "Private", "Private frame", "Privado", "Marco Privado" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "SIGN", "Signature", "Signature frame", "Firma", "" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "SEEK", "Seek", "Seek frame", "Búsqueda", "Marco de Búsqueda" );
+INSERT INTO headers ( codFrame, headerEN, descriptionEN, headerES, descriptionES ) VALUES ( "ASPI", "Index", "Audio seek point index", "Índice", "Índice de punto de búsqueda de audio" );

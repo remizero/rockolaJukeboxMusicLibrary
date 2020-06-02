@@ -1,0 +1,5 @@
+CREATE TABLE `settings` (
+  `id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  `language`	INTEGER NOT NULL,
+  `headerState`	TEXT NOT NULL
+);

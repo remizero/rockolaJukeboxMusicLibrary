@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets sql
 
 TARGET = rockolaJukeboxMusicLibrary
 TEMPLATE = app
@@ -26,10 +26,18 @@ CONFIG += c++11
 
 SOURCES += \
     src/main.cpp \
-    src/MainWindow.cpp
+    src/MainWindow.cpp \
+    src/RockolaDbManager.cpp \
+    src/RockolaUtils.cpp \
+    src/ConfigData.cpp \
+    src/RockolaHeaderData.cpp
 
 HEADERS += \
-    src/MainWindow.h
+    src/MainWindow.h \
+    src/RockolaDbManager.h \
+    src/RockolaUtils.h \
+    src/ConfigData.h \
+    src/RockolaHeaderData.h
 
 FORMS += \
     src/MainWindow.ui
@@ -38,3 +46,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    src/rockolaresources.qrc
