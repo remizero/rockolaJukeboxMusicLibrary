@@ -10,20 +10,29 @@ class ConfigData : public QObject {
   public:
     explicit ConfigData ( QObject *parent = nullptr );
 
+            int getHeaderMinimumSectionSize () const;
+     QByteArray getHeaderState ();
+           bool getHeaderStretchLastSection () const;
+            int getHeaderTooltipDuration () const;
             int getId () const;
             int getLanguage ();
-     QByteArray getHeaderState ();
            bool isModified () const;
            void setId ( int value );
            void setLanguage ( int language );
+           void setHeaderMinimumSectionSize ( int value );
            void setHeaderState ( QByteArray headerState );
+           void setHeaderStretchLastSection ( bool value );
+           void setHeaderTooltipDuration ( int value );
 
   signals:
 
   public slots:
 
   private :
+           int headerMinimumSectionSize;
     QByteArray headerState;
+          bool headerStretchLastSection;
+           int headerTooltipDuration;
            int id;
            int language;
           bool modified;

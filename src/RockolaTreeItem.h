@@ -48,70 +48,40 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef ROCKOLATREEITEM_H
+#define ROCKOLATREEITEM_H
 
-#include <QCloseEvent>
 #include <QDebug>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileInfo>
 #include <QList>
-#include <QMainWindow>
-#include <QModelIndex>
-#include <QSortFilterProxyModel>
+#include <QVariant>
+#include <QVector>
 
-//#include "ComboBoxDelegate.h"
-#include "RockolaDbManager.h"
 #include "RockolaHeaderData.h"
-#include "RockolaHeaderTooltipDLG.h"
-#include "RockolaTreeMDL.h"
-#include "RockolaUtils.h"
-//#include "SpinBoxDelegate.h"
-//#include "StarDelegate.h"
-//#include "treemodel.h"
-#include "ui_MainWindow.h"
 
-namespace Ui {
-
-  class MainWindow;
-}
-
-class MainWindow : public QMainWindow {
-
-    Q_OBJECT
+//! [0]
+class RockolaTreeItem {
 
   public:
-    explicit MainWindow ( QWidget *parent = nullptr );
-    ~MainWindow () override;
+    explicit RockolaTreeItem ( const QVector<RockolaHeaderData> &data, RockolaTreeItem *parent = nullptr );
+    ~RockolaTreeItem ();
 
-    RockolaDbManager *getRockolaDbConnection () const;
-                void setRockolaDbConnection ( RockolaDbManager *value );
-
-  public slots:
-    void updateActions ();
-
-  private slots:
-    void insertChild ();
-    bool insertColumn ( QString header );
-    void showHideColumn ( QVariant header );
-    void insertRow ();
-    bool removeColumn ();
-    void removeRow ();
-    void setHeaderContextualMenu ( QPoint pos );
-    void checkedUncheked ( bool signal, QAction *action );
+    RockolaTreeItem *child ( int number );
+                int childCount () const;
+                int childNumber () const;
+                int columnCount () const;
+           QVariant data ( int column, int role = Qt::DisplayRole ) const;
+               bool insertChildren ( int position, int count, int columns );
+               bool insertColumns ( int position, int columns );
+    RockolaTreeItem *parent ();
+               bool removeChildren ( int position, int count );
+               bool removeColumns ( int position, int columns );
+               bool setData ( int column, const QVariant &value );
 
   private:
-               ConfigData *configData;
-                    QMenu *contextualMenu;
-                   QPoint columnIndex;
-    QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
-         RockolaDbManager *rockolaDbConnection;
-           Ui::MainWindow *ui;
-
-  protected:
-    void closeEvent ( QCloseEvent *event ) override;
-
+      QList<RockolaTreeItem *> childItems;
+    QVector<RockolaHeaderData> itemData;
+               RockolaTreeItem *parentItem;
 };
+//! [0]
 
-#endif // MAINWINDOW_H
+#endif // ROCKOLATREEITEM_H

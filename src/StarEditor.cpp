@@ -48,70 +48,69 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include <QtWidgets>
 
-#include <QCloseEvent>
-#include <QDebug>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileInfo>
-#include <QList>
-#include <QMainWindow>
-#include <QModelIndex>
-#include <QSortFilterProxyModel>
+#include "StarEditor.h"
+//#include "starrating.h"
 
-//#include "ComboBoxDelegate.h"
-#include "RockolaDbManager.h"
-#include "RockolaHeaderData.h"
-#include "RockolaHeaderTooltipDLG.h"
-#include "RockolaTreeMDL.h"
-#include "RockolaUtils.h"
-//#include "SpinBoxDelegate.h"
-//#include "StarDelegate.h"
-//#include "treemodel.h"
-#include "ui_MainWindow.h"
+//! [0]
+StarEditor::StarEditor ( QWidget *parent ) : QWidget ( parent ) {
 
-namespace Ui {
+  this->setMouseTracking ( true );
+  this->setAutoFillBackground ( true );
+}
+//! [0]
 
-  class MainWindow;
+QSize StarEditor::sizeHint () const {
+
+  return this->myStarRating.sizeHint ();
 }
 
-class MainWindow : public QMainWindow {
+void StarEditor::setStarRating ( const StarRating &starRating ) {
 
-    Q_OBJECT
+  this->myStarRating = starRating;
+}
 
-  public:
-    explicit MainWindow ( QWidget *parent = nullptr );
-    ~MainWindow () override;
+StarRating StarEditor::starRating () {
 
-    RockolaDbManager *getRockolaDbConnection () const;
-                void setRockolaDbConnection ( RockolaDbManager *value );
+  return this->myStarRating;
+}
 
-  public slots:
-    void updateActions ();
+//! [1]
+void StarEditor::paintEvent ( QPaintEvent * ) {
 
-  private slots:
-    void insertChild ();
-    bool insertColumn ( QString header );
-    void showHideColumn ( QVariant header );
-    void insertRow ();
-    bool removeColumn ();
-    void removeRow ();
-    void setHeaderContextualMenu ( QPoint pos );
-    void checkedUncheked ( bool signal, QAction *action );
+  QPainter painter ( this );
+  this->myStarRating.paint ( &painter, rect (), this->palette (), StarRating::Editable );
+}
+//! [1]
 
-  private:
-               ConfigData *configData;
-                    QMenu *contextualMenu;
-                   QPoint columnIndex;
-    QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
-         RockolaDbManager *rockolaDbConnection;
-           Ui::MainWindow *ui;
+//! [2]
+void StarEditor::mouseMoveEvent ( QMouseEvent *event ) {
 
-  protected:
-    void closeEvent ( QCloseEvent *event ) override;
+  int star = this->starAtPosition ( event->x () );
+  if ( star != this->myStarRating.starCount () && star != -1 ) {
 
-};
+    this->myStarRating.setStarCount ( star );
+    update ();
+  }
+}
+//! [2]
 
-#endif // MAINWINDOW_H
+//! [3]
+void StarEditor::mouseReleaseEvent ( QMouseEvent * /* event */ ) {
+
+  emit editingFinished ();
+}
+//! [3]
+
+//! [4]
+int StarEditor::starAtPosition ( int x ) {
+
+  int star = ( x / ( this->myStarRating.sizeHint ().width () / this->myStarRating.maxStarCount () ) ) + 1;
+  if ( star <= 0 || star > this->myStarRating.maxStarCount () ) {
+
+    return -1;
+  }
+  return star;
+}
+//! [4]

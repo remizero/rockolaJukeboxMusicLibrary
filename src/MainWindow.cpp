@@ -64,17 +64,16 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ), ui ( new Ui
   // https://www.qtcentre.org/threads/10646-How-to-activate-delegated-item-in-qtreeview-by-custom-shotcut
   // Este para un menú contextual personalizado
   // https://www.qtcentre.org/threads/19919-Custom-context-menu-in-QTreeView
-  ///home/remizero/Proyectos/Desarrollo/Qt/rockolaJukeboxMusicLibrary/src/MainWindow.cpp:54: error: allocation of incomplete type 'Ui::MainWindow'
 
   // no escribir no leer ni hablar                        Escuchar historias interactivas
   // no estudiar gramática                                Hacer preguntas de las historias interactivas
   //                                                      repetir las historias
 
-  //this->setupUi ( this );
   this->ui->setupUi ( this );
 
   this->rockolaDbConnection = new RockolaDbManager ();
   this->configData = RockolaUtils::loadSettings ( rockolaDbConnection->getConnection () );
+  qInfo () << "DATA DE CONFIGURACIÓN INICIAL DEL OBJETO CONFIGDATA";
   qInfo () << this->configData->getId ();
   qInfo () << this->configData->getLanguage ();
   qInfo () << this->configData->getHeaderState ();
@@ -84,21 +83,28 @@ MainWindow::MainWindow ( QWidget *parent ) : QMainWindow ( parent ), ui ( new Ui
   proxyModel = new QSortFilterProxyModel;
 
   // TODO Redefinir los nombres de las cabeceras por nombres mas representativos e intuitivos
-  // TODO La asignación del lenguaje para esta línea de código debe venir desde la lectura de la base de datos, es decir,
+  // (LISTO)TODO La asignación del lenguaje para esta línea de código debe venir desde la lectura de la base de datos, es decir,
   // crear un método en la clase RockolaDbManager que permita generar una tira SQL que permita traer toda la data de la tabla
   // settings en una sola consulta, con las relaciones con otras tablas según el caso que corresponda.
-  //QStringList headers = RockolaUtils::loadHeaders ( this->rockolaDbConnection->getConnection (), this->configData->getLanguage () );
-  QList<RockolaHeaderData> headers = RockolaUtils::loadHeaders ( this->rockolaDbConnection->getConnection (), this->configData->getLanguage () );
-
+  QList<RockolaHeaderData> headersDataList = RockolaUtils::loadHeaders ( this->rockolaDbConnection->getConnection (), this->configData->getLanguage () );
+  QFile file ( ":/RockolaResources/resources/default.txt" );
+  file.open ( QIODevice::ReadOnly );
+  RockolaTreeMDL *rockolaTreeMDL = new RockolaTreeMDL ( headersDataList, file.readAll () );
+  file.close ();
+  proxyModel->setSourceModel ( rockolaTreeMDL );
+  this->ui->view->setModel ( proxyModel );
+  // TODO hacer un tooltip personalizado con transparencia, colores personalizados
+  // y esquinas redondeadas o como el logo del qt
+  // https://contingencycoder.wordpress.com/2013/07/04/quick-tip-customize-qt-tooltips-with-style-sheets/
+  this->ui->view->setToolTipDuration ( 5 );
 
   // TODO La carga de esta información debe hacerse desde una base de datos.
-  /*QFile file ( ":/default.txt" );
+  /*
+  QFile file ( ":/default.txt" );
   file.open ( QIODevice::ReadOnly );
   TreeModel *model = new TreeModel ( headers, file.readAll () );
   file.close ();
-
-  proxyModel->setSourceModel ( model );
-  view->setModel ( proxyModel );*/
+  */
 
   // TODO Como asignar estas columnas de forma automática
   // Identificar las columnas que llevarán delegados para hacer la asignación correspondiente de todos los delegados

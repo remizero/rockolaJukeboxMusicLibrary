@@ -2,7 +2,7 @@
 
 RockolaUtils::RockolaUtils ( QObject *parent ) : QObject ( parent ) {}
 
-/*QList<ComboBoxItemModel> RockolaUtils::getMoodsData ( QSqlDatabase connection, int language ) {
+QList<ComboBoxItemModel> RockolaUtils::getMoodsData ( QSqlDatabase connection, int language ) {
 
   QList<ComboBoxItemModel> comboBoxItemModelList;
   QSqlQuery query ( connection );
@@ -22,7 +22,15 @@ RockolaUtils::RockolaUtils ( QObject *parent ) : QObject ( parent ) {}
     }
   }
   return comboBoxItemModelList;
-}*/
+}
+
+int RockolaUtils::getEnumHeadersValue ( const char *key, bool *ok ) {
+
+  QMetaEnum metaEnum = QMetaEnum::fromType<RockolaUtils::enumHeaders> ();
+  int enumValue;
+  enumValue = metaEnum.keyToValue ( key, ok );
+  return enumValue;
+}
 
 QStringList RockolaUtils::getStringListEnum () {
 

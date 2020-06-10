@@ -30,14 +30,34 @@ SOURCES += \
     src/RockolaDbManager.cpp \
     src/RockolaUtils.cpp \
     src/ConfigData.cpp \
-    src/RockolaHeaderData.cpp
+    src/RockolaHeaderData.cpp \
+    src/RockolaTreeMDL.cpp \
+    src/RockolaTreeItem.cpp \
+    src/StarRating.cpp \
+    src/RockolaHeaderTooltipDLG.cpp \
+    src/RockolaMainWindow.cpp \
+    src/StarDelegate.cpp \
+    src/ComboBoxDelegate.cpp \
+    src/SpinBoxDelegate.cpp \
+    src/ComboBoxItemModel.cpp \
+    src/StarEditor.cpp
 
 HEADERS += \
     src/MainWindow.h \
     src/RockolaDbManager.h \
     src/RockolaUtils.h \
     src/ConfigData.h \
-    src/RockolaHeaderData.h
+    src/RockolaHeaderData.h \
+    src/RockolaTreeMDL.h \
+    src/RockolaTreeItem.h \
+    src/StarRating.h \
+    src/RockolaHeaderTooltipDLG.h \
+    src/RockolaMainWindow.h \
+    src/StarDelegate.h \
+    src/ComboBoxDelegate.h \
+    src/SpinBoxDelegate.h \
+    src/ComboBoxItemModel.h \
+    src/StarEditor.h
 
 FORMS += \
     src/MainWindow.ui
@@ -48,4 +68,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    src/rockolaresources.qrc
+    src/RockolaResources.qrc
+
+DISTFILES +=

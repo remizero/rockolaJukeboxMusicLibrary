@@ -11,7 +11,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-//#include "ComboBoxItemModel.h"
+#include "ComboBoxItemModel.h"
 #include "ConfigData.h"
 #include "RockolaHeaderData.h"
 
@@ -137,8 +137,9 @@ class RockolaUtils : public QObject {
     };
     Q_ENUM ( enumHeaders )
 
-    //static QList<ComboBoxItemModel> getMoodsData ( QSqlDatabase connection, int language );
+    static QList<ComboBoxItemModel> getMoodsData ( QSqlDatabase connection, int language );
                  static QStringList getStringListEnum ();
+                         static int getEnumHeadersValue ( const char *key, bool *ok = nullptr );
     static QList<RockolaHeaderData> loadHeaders ( QSqlDatabase connection, int language );
                   static ConfigData *loadSettings ( QSqlDatabase connection );
                         static void saveSettings ( QSqlDatabase connection, ConfigData *configData );

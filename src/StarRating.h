@@ -48,70 +48,39 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef STARRATING_H
+#define STARRATING_H
 
-#include <QCloseEvent>
-#include <QDebug>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileInfo>
-#include <QList>
-#include <QMainWindow>
-#include <QModelIndex>
-#include <QSortFilterProxyModel>
+#include <QMetaType>
+#include <QPainter>
+#include <QPointF>
+#include <QVector>
 
-//#include "ComboBoxDelegate.h"
-#include "RockolaDbManager.h"
-#include "RockolaHeaderData.h"
-#include "RockolaHeaderTooltipDLG.h"
-#include "RockolaTreeMDL.h"
-#include "RockolaUtils.h"
-//#include "SpinBoxDelegate.h"
-//#include "StarDelegate.h"
-//#include "treemodel.h"
-#include "ui_MainWindow.h"
-
-namespace Ui {
-
-  class MainWindow;
-}
-
-class MainWindow : public QMainWindow {
-
-    Q_OBJECT
+//! [0]
+class StarRating {
 
   public:
-    explicit MainWindow ( QWidget *parent = nullptr );
-    ~MainWindow () override;
+    explicit StarRating ( int starCount = 1, int maxStarCount = 5 );
 
-    RockolaDbManager *getRockolaDbConnection () const;
-                void setRockolaDbConnection ( RockolaDbManager *value );
+     enum EditMode { Editable, ReadOnly };
 
-  public slots:
-    void updateActions ();
-
-  private slots:
-    void insertChild ();
-    bool insertColumn ( QString header );
-    void showHideColumn ( QVariant header );
-    void insertRow ();
-    bool removeColumn ();
-    void removeRow ();
-    void setHeaderContextualMenu ( QPoint pos );
-    void checkedUncheked ( bool signal, QAction *action );
+     void paint ( QPainter *painter, const QRect &rect, const QPalette &palette, EditMode mode ) const;
+    QSize sizeHint () const;
+      int starCount () const;
+      int maxStarCount () const;
+     void setStarCount ( int starCount );
+     void setMaxStarCount ( int maxStarCount );
 
   private:
-               ConfigData *configData;
-                    QMenu *contextualMenu;
-                   QPoint columnIndex;
-    QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
-         RockolaDbManager *rockolaDbConnection;
-           Ui::MainWindow *ui;
-
-  protected:
-    void closeEvent ( QCloseEvent *event ) override;
-
+    QPolygonF starPolygon;
+    QPolygonF diamondPolygon;
+          int myStarCount;
+          int myMaxStarCount;
 };
+//! [0]
 
-#endif // MAINWINDOW_H
+//! [1]
+Q_DECLARE_METATYPE ( StarRating )
+//! [1]
+
+#endif

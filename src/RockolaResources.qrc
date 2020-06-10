@@ -13,5 +13,6 @@
         <file>resources/sql/tempos.sql</file>
         <file>resources/sql/tracks.sql</file>
         <file>resources/sql/typeFormats.sql</file>
+        <file>resources/default.txt</file>
     </qresource>
 </RCC>

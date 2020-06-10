@@ -48,70 +48,37 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef STAREDITOR_H
+#define STAREDITOR_H
 
-#include <QCloseEvent>
-#include <QDebug>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileInfo>
-#include <QList>
-#include <QMainWindow>
-#include <QModelIndex>
-#include <QSortFilterProxyModel>
+#include <QWidget>
 
-//#include "ComboBoxDelegate.h"
-#include "RockolaDbManager.h"
-#include "RockolaHeaderData.h"
-#include "RockolaHeaderTooltipDLG.h"
-#include "RockolaTreeMDL.h"
-#include "RockolaUtils.h"
-//#include "SpinBoxDelegate.h"
-//#include "StarDelegate.h"
-//#include "treemodel.h"
-#include "ui_MainWindow.h"
+#include "StarRating.h"
 
-namespace Ui {
-
-  class MainWindow;
-}
-
-class MainWindow : public QMainWindow {
+//! [0]
+class StarEditor : public QWidget {
 
     Q_OBJECT
 
   public:
-    explicit MainWindow ( QWidget *parent = nullptr );
-    ~MainWindow () override;
+    StarEditor ( QWidget *parent = nullptr );
 
-    RockolaDbManager *getRockolaDbConnection () const;
-                void setRockolaDbConnection ( RockolaDbManager *value );
+         QSize sizeHint () const override;
+          void setStarRating ( const StarRating &starRating );
+    StarRating starRating ();
 
-  public slots:
-    void updateActions ();
-
-  private slots:
-    void insertChild ();
-    bool insertColumn ( QString header );
-    void showHideColumn ( QVariant header );
-    void insertRow ();
-    bool removeColumn ();
-    void removeRow ();
-    void setHeaderContextualMenu ( QPoint pos );
-    void checkedUncheked ( bool signal, QAction *action );
-
-  private:
-               ConfigData *configData;
-                    QMenu *contextualMenu;
-                   QPoint columnIndex;
-    QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
-         RockolaDbManager *rockolaDbConnection;
-           Ui::MainWindow *ui;
+  signals:
+    void editingFinished ();
 
   protected:
-    void closeEvent ( QCloseEvent *event ) override;
+    void paintEvent ( QPaintEvent *event ) override;
+    void mouseMoveEvent ( QMouseEvent *event ) override;
+    void mouseReleaseEvent ( QMouseEvent *event ) override;
 
+  private:
+           int starAtPosition ( int x );
+    StarRating myStarRating;
 };
+//! [0]
 
-#endif // MAINWINDOW_H
+#endif

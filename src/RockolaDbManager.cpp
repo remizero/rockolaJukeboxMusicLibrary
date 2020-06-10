@@ -150,7 +150,7 @@ void RockolaDbManager::restoreRockolaDb () {
 
   if ( connection.isOpen () && connection.isValid () ) {
 
-    QDirIterator it ( ":/resources", QDirIterator::Subdirectories );
+    QDirIterator it ( ":/resources/sql", QDirIterator::Subdirectories );
     while ( it.hasNext () ) {
 
       QFileInfo f ( it.next () );

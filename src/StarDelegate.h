@@ -48,70 +48,28 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef STARDELEGATE_H
+#define STARDELEGATE_H
 
-#include <QCloseEvent>
-#include <QDebug>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileInfo>
-#include <QList>
-#include <QMainWindow>
-#include <QModelIndex>
-#include <QSortFilterProxyModel>
+#include <QStyledItemDelegate>
 
-//#include "ComboBoxDelegate.h"
-#include "RockolaDbManager.h"
-#include "RockolaHeaderData.h"
-#include "RockolaHeaderTooltipDLG.h"
-#include "RockolaTreeMDL.h"
-#include "RockolaUtils.h"
-//#include "SpinBoxDelegate.h"
-//#include "StarDelegate.h"
-//#include "treemodel.h"
-#include "ui_MainWindow.h"
+//! [0]
+class StarDelegate : public QStyledItemDelegate {
 
-namespace Ui {
-
-  class MainWindow;
-}
-
-class MainWindow : public QMainWindow {
-
-    Q_OBJECT
+  Q_OBJECT
 
   public:
-    explicit MainWindow ( QWidget *parent = nullptr );
-    ~MainWindow () override;
+    StarDelegate ( QWidget *parent = nullptr ) : QStyledItemDelegate ( parent ) {}
 
-    RockolaDbManager *getRockolaDbConnection () const;
-                void setRockolaDbConnection ( RockolaDbManager *value );
-
-  public slots:
-    void updateActions ();
+    QWidget *createEditor ( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
+       void setEditorData ( QWidget *editor, const QModelIndex &index ) const override;
+       void setModelData ( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const override;
+      QSize sizeHint ( const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
+       void paint ( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 
   private slots:
-    void insertChild ();
-    bool insertColumn ( QString header );
-    void showHideColumn ( QVariant header );
-    void insertRow ();
-    bool removeColumn ();
-    void removeRow ();
-    void setHeaderContextualMenu ( QPoint pos );
-    void checkedUncheked ( bool signal, QAction *action );
-
-  private:
-               ConfigData *configData;
-                    QMenu *contextualMenu;
-                   QPoint columnIndex;
-    QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
-         RockolaDbManager *rockolaDbConnection;
-           Ui::MainWindow *ui;
-
-  protected:
-    void closeEvent ( QCloseEvent *event ) override;
-
+    void commitAndCloseEditor ();
 };
+//! [0]
 
-#endif // MAINWINDOW_H
+#endif

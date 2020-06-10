@@ -48,70 +48,83 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include <QtWidgets>
+#include <cmath>
 
-#include <QCloseEvent>
-#include <QDebug>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileInfo>
-#include <QList>
-#include <QMainWindow>
-#include <QModelIndex>
-#include <QSortFilterProxyModel>
+#include "StarRating.h"
 
-//#include "ComboBoxDelegate.h"
-#include "RockolaDbManager.h"
-#include "RockolaHeaderData.h"
-#include "RockolaHeaderTooltipDLG.h"
-#include "RockolaTreeMDL.h"
-#include "RockolaUtils.h"
-//#include "SpinBoxDelegate.h"
-//#include "StarDelegate.h"
-//#include "treemodel.h"
-#include "ui_MainWindow.h"
+const int PaintingScaleFactor = 20;
 
-namespace Ui {
+//! [0]
+StarRating::StarRating ( int starCount, int maxStarCount ) {
 
-  class MainWindow;
+  this->myStarCount = starCount;
+  this->myMaxStarCount = maxStarCount;
+  this->starPolygon << QPointF ( 1.0, 0.5 );
+  for ( int i = 1; i < 5; ++i ) {
+
+    this->starPolygon << QPointF ( 0.5 + 0.5 * std::cos ( 0.8 * i * 3.14 ), 0.5 + 0.5 * std::sin ( 0.8 * i * 3.14 ) );
+  }
+  this->diamondPolygon << QPointF ( 0.4, 0.5 ) << QPointF ( 0.5, 0.4 ) << QPointF ( 0.6, 0.5 ) << QPointF ( 0.5, 0.6 ) << QPointF ( 0.4, 0.5 );
+}
+//! [0]
+
+//! [1]
+QSize StarRating::sizeHint () const {
+
+  return PaintingScaleFactor * QSize ( this->myMaxStarCount, 1 );
 }
 
-class MainWindow : public QMainWindow {
+int StarRating::starCount () const {
 
-    Q_OBJECT
+  return this->myStarCount;
+}
 
-  public:
-    explicit MainWindow ( QWidget *parent = nullptr );
-    ~MainWindow () override;
+int StarRating::maxStarCount () const {
 
-    RockolaDbManager *getRockolaDbConnection () const;
-                void setRockolaDbConnection ( RockolaDbManager *value );
+  return this->myMaxStarCount;
+}
 
-  public slots:
-    void updateActions ();
+void StarRating::setStarCount ( int starCount ) {
 
-  private slots:
-    void insertChild ();
-    bool insertColumn ( QString header );
-    void showHideColumn ( QVariant header );
-    void insertRow ();
-    bool removeColumn ();
-    void removeRow ();
-    void setHeaderContextualMenu ( QPoint pos );
-    void checkedUncheked ( bool signal, QAction *action );
+  this->myStarCount = starCount;
+}
 
-  private:
-               ConfigData *configData;
-                    QMenu *contextualMenu;
-                   QPoint columnIndex;
-    QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
-         RockolaDbManager *rockolaDbConnection;
-           Ui::MainWindow *ui;
+void StarRating::setMaxStarCount ( int maxStarCount ) {
 
-  protected:
-    void closeEvent ( QCloseEvent *event ) override;
+  this->myMaxStarCount = maxStarCount;
+}
+//! [1]
 
-};
+//! [2]
+void StarRating::paint ( QPainter *painter, const QRect &rect, const QPalette &palette, EditMode mode ) const {
 
-#endif // MAINWINDOW_H
+  painter->save ();
+  painter->setRenderHint ( QPainter::Antialiasing, true );
+  painter->setPen ( Qt::NoPen );
+  if ( mode == Editable ) {
+
+    painter->setBrush ( palette.highlight () );
+
+  } else {
+
+    painter->setBrush ( palette.foreground () );
+  }
+  int yOffset = ( rect.height () - PaintingScaleFactor ) / 2;
+  painter->translate ( rect.x (), rect.y () + yOffset );
+  painter->scale ( PaintingScaleFactor, PaintingScaleFactor );
+  for ( int i = 0; i < this->myMaxStarCount; ++i ) {
+
+    if ( i < myStarCount ) {
+
+      painter->drawPolygon ( this->starPolygon, Qt::WindingFill );
+
+    } else if ( mode == Editable ) {
+
+      painter->drawPolygon ( this->diamondPolygon, Qt::WindingFill );
+    }
+    painter->translate ( 1.0, 0.0 );
+  }
+  painter->restore ();
+}
+//! [2]
