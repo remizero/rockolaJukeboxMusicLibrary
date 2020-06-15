@@ -14,5 +14,6 @@
         <file>resources/sql/tracks.sql</file>
         <file>resources/sql/typeFormats.sql</file>
         <file>resources/default.txt</file>
+        <file>resources/sql/libraryViews.sql</file>
     </qresource>
 </RCC>

@@ -12,7 +12,9 @@
 #include <QSqlQuery>
 
 #include "ComboBoxItemModel.h"
-#include "ConfigData.h"
+#include "ConfigDataMDL.h"
+#include "LanguageMDL.h"
+#include "LibraryViewMDL.h"
 #include "RockolaHeaderData.h"
 
 class RockolaUtils : public QObject {
@@ -137,12 +139,15 @@ class RockolaUtils : public QObject {
     };
     Q_ENUM ( enumHeaders )
 
-    static QList<ComboBoxItemModel> getMoodsData ( QSqlDatabase connection, int language );
+    static QList<ComboBoxItemModel> getMoodsData ( QSqlDatabase connection, QString language );
                  static QStringList getStringListEnum ();
                          static int getEnumHeadersValue ( const char *key, bool *ok = nullptr );
-    static QList<RockolaHeaderData> loadHeaders ( QSqlDatabase connection, int language );
-                  static ConfigData *loadSettings ( QSqlDatabase connection );
-                        static void saveSettings ( QSqlDatabase connection, ConfigData *configData );
+                 static LanguageMDL *loadCurrentLanguage ( QSqlDatabase connection, int language );
+    static QList<RockolaHeaderData> loadHeaders ( QSqlDatabase connection, QString language );
+          static QList<LanguageMDL> loadLanguages ( QSqlDatabase connection, QString language );
+              static LibraryViewMDL *loadLibraryView ( QSqlDatabase connection, int libraryViewID, QString language );
+               static ConfigDataMDL *loadSettings ( QSqlDatabase connection );
+                        static void saveSettings ( QSqlDatabase connection, ConfigDataMDL *configData );
 
   signals:
 

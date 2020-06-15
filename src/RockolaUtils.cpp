@@ -2,21 +2,19 @@
 
 RockolaUtils::RockolaUtils ( QObject *parent ) : QObject ( parent ) {}
 
-QList<ComboBoxItemModel> RockolaUtils::getMoodsData ( QSqlDatabase connection, int language ) {
+QList<ComboBoxItemModel> RockolaUtils::getMoodsData ( QSqlDatabase connection, QString language ) {
 
   QList<ComboBoxItemModel> comboBoxItemModelList;
   QSqlQuery query ( connection );
-  query.exec ( "SELECT iso_369_1 FROM languages WHERE id = \"" + QString::number ( language ) + "\";" );
+  language.truncate ( 2 );
   while ( query.next () ) {
 
-    QString str = query.value ( "iso_369_1" ).toString ();
-    str.truncate ( 2 );
-    query.exec ( "SELECT id, mood" + str.toUpper () + " FROM moods;" );
+    query.exec ( "SELECT id, mood" + language.toUpper () + " FROM moods;" );
     while ( query.next () ) {
 
       ComboBoxItemModel comboBoxItemModel;
       comboBoxItemModel.setId ( query.value ( "id" ).toInt () );
-      comboBoxItemModel.setValue ( query.value ( "mood" + str.toUpper () ).toString () );
+      comboBoxItemModel.setValue ( query.value ( "mood" + language.toUpper () ).toString () );
       comboBoxItemModel.setDescription ( "" );
       comboBoxItemModelList.append ( comboBoxItemModel );
     }
@@ -32,6 +30,23 @@ int RockolaUtils::getEnumHeadersValue ( const char *key, bool *ok ) {
   return enumValue;
 }
 
+LanguageMDL *RockolaUtils::loadCurrentLanguage ( QSqlDatabase connection, int language ) {
+
+  LanguageMDL *languageDataMDL = new LanguageMDL ();
+  QSqlQuery query ( connection );
+  query.exec ( "SELECT * FROM languages WHERE id = \"" + QString::number ( language ) + "\";" );
+  while ( query.next () ) {
+
+    QString str = query.value ( "iso_369_1" ).toString ();
+    str.truncate ( 2 );
+    languageDataMDL->setDescription ( query.value ( "description" + str.toUpper () ).toByteArray () );
+    languageDataMDL->setId ( query.value ( "id" ).toInt () );
+    languageDataMDL->setIso_369_1 ( query.value ( "iso_369_1" ).toByteArray () );
+    languageDataMDL->setIso_369_2 ( query.value ( "iso_369_2" ).toByteArray () );
+  }
+  return languageDataMDL;
+}
+
 QStringList RockolaUtils::getStringListEnum () {
 
   QMetaEnum metaEnum = QMetaEnum::fromType<RockolaUtils::enumExtensions> ();
@@ -45,52 +60,90 @@ QStringList RockolaUtils::getStringListEnum () {
   return enumList;
 }
 
-QList<RockolaHeaderData> RockolaUtils::loadHeaders ( QSqlDatabase connection, int language ) {
+QList<RockolaHeaderData> RockolaUtils::loadHeaders ( QSqlDatabase connection, QString language ) {
 
-  //QStringList headers;
   RockolaHeaderData rockolaHeaderModel;
   QList<RockolaHeaderData> headersList;
   QSqlQuery query ( connection );
-  query.exec ( "SELECT iso_369_1 FROM languages WHERE id = \"" + QString::number ( language ) + "\";" );
+  language.truncate ( 2 );
   while ( query.next () ) {
 
-    QString str = query.value ( "iso_369_1" ).toString ();
-    str.truncate ( 2 );
-    query.exec ( "SELECT id, codFrame, header" + str.toUpper () + ", description" + str.toUpper () + " FROM headers;" );
+    query.exec ( "SELECT id, codFrame, header" + language.toUpper () + ", description" + language.toUpper () + " FROM headers;" );
     while ( query.next () ) {
 
-      //headers << query.value ( "header" + str.toUpper () ).toString ();
       rockolaHeaderModel.setId ( query.value ( "id" ).toInt () );
       rockolaHeaderModel.setCodFrame ( query.value ( "codFrame" ).toString () );
-      rockolaHeaderModel.setHeader ( query.value ( "header" + str.toUpper () ).toString () );
-      rockolaHeaderModel.setDescription ( query.value ( "description" + str.toUpper () ).toString () );
+      rockolaHeaderModel.setHeader ( query.value ( "header" + language.toUpper () ).toString () );
+      rockolaHeaderModel.setDescription ( query.value ( "description" + language.toUpper () ).toString () );
       headersList.append ( rockolaHeaderModel );
     }
   }
   return headersList;
 }
 
-ConfigData *RockolaUtils::loadSettings ( QSqlDatabase connection ) {
+QList<LanguageMDL> RockolaUtils::loadLanguages ( QSqlDatabase connection, QString language ) {
 
-  ConfigData *configData = new ConfigData ();
+  LanguageMDL languageDataMDL;
+  QList<LanguageMDL> languageList;
+  QSqlQuery query ( connection );
+  language.truncate ( 2 );
+  query.exec ( "SELECT * FROM languages;" );
+  while ( query.next () ) {
+
+    languageDataMDL.setDescription ( query.value ( "description" + language.toUpper () ).toByteArray () );
+    languageDataMDL.setId ( query.value ( "id" ).toInt () );
+    languageDataMDL.setIso_369_1 ( query.value ( "iso_369_1" ).toByteArray () );
+    languageDataMDL.setIso_369_2 ( query.value ( "iso_369_2" ).toByteArray () );
+    languageList.append ( languageDataMDL );
+  }
+  return languageList;
+}
+
+LibraryViewMDL *RockolaUtils::loadLibraryView ( QSqlDatabase connection, int libraryViewID, QString language ) {
+
+  LibraryViewMDL *libraryViewData = new LibraryViewMDL ();
+  QSqlQuery query ( connection );
+  language.truncate ( 2 );
+  while ( query.next () ) {
+
+    query.exec ( "SELECT id, libraryView, dataView, description" + language.toUpper () + " FROM LibraryViews WHERE id = \"" + QString::number ( libraryViewID ) + "\";" );
+    while ( query.next () ) {
+
+      libraryViewData->setDataView ( query.value ( "dataView" ).toByteArray () );
+      libraryViewData->setDescription ( query.value ( "description" ).toByteArray () );
+      libraryViewData->setId ( query.value ( "id" ).toInt () );
+      libraryViewData->setLibraryView ( query.value ( "libraryView" ).toByteArray () );
+    }
+  }
+  return libraryViewData;
+}
+
+ConfigDataMDL *RockolaUtils::loadSettings ( QSqlDatabase connection ) {
+
+  ConfigDataMDL *configData = new ConfigDataMDL ();
   QSqlQuery query ( connection );
   query.exec ( "SELECT * FROM settings;" );
   while ( query.next () ) {
 
+    configData->setHeaderMinimumSectionSize ( query.value ( "headerMinimumSectionSize" ).toInt () );
+    configData->setHeaderState ( query.value ( "headerState" ).toByteArray () );
+    configData->setHeaderStretchLastSection ( query.value ( "headerStretchLastSection" ).toInt () );
+    configData->setHeaderTooltipDuration ( query.value ( "headerTooltipDuration" ).toInt () );
     configData->setId ( query.value ( "id" ).toInt () );
     configData->setLanguage ( query.value ( "language" ).toInt () );
-    configData->setHeaderState ( query.value ( "headerState" ).toByteArray () );
+    configData->setLibraryView ( query.value ( "libraryView" ).toInt () );
   }
   return configData;
 }
 
-void RockolaUtils::saveSettings ( QSqlDatabase connection ,ConfigData *configData ) {
+void RockolaUtils::saveSettings ( QSqlDatabase connection ,ConfigDataMDL *configData ) {
 
   if ( configData->isModified () ) {
 
     QSqlQuery query ( connection );
-    query.prepare ( "UPDATE settings SET language=:language, headerState=:headerState WHERE id=:id;" );
-    query.bindValue ( ":language", QString::number ( configData->getLanguage () ) );
+    //query.prepare ( "UPDATE settings SET language=:language, headerState=:headerState WHERE id=:id;" );
+    query.prepare ( "UPDATE settings SET headerState=:headerState WHERE id=:id;" );
+    //query.bindValue ( ":language", QString::number ( configData->getLanguage () ) );
     query.bindValue ( ":headerState", configData->getHeaderState () );
     query.bindValue ( ":id", QString::number ( configData->getId () ) );
     if ( query.exec () ) {
@@ -109,4 +162,3 @@ void RockolaUtils::saveSettings ( QSqlDatabase connection ,ConfigData *configDat
     qInfo () << "NO se modificó el objeto configData.";
   }
 }
-

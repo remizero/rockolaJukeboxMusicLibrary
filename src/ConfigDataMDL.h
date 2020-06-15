@@ -3,12 +3,12 @@
 
 #include <QObject>
 
-class ConfigData : public QObject {
+class ConfigDataMDL : public QObject {
 
     Q_OBJECT
 
   public:
-    explicit ConfigData ( QObject *parent = nullptr );
+    explicit ConfigDataMDL ( QObject *parent = nullptr );
 
             int getHeaderMinimumSectionSize () const;
      QByteArray getHeaderState ();
@@ -16,9 +16,11 @@ class ConfigData : public QObject {
             int getHeaderTooltipDuration () const;
             int getId () const;
             int getLanguage ();
+            int getLibraryView () const;
            bool isModified () const;
            void setId ( int value );
            void setLanguage ( int language );
+           void setLibraryView ( int value );
            void setHeaderMinimumSectionSize ( int value );
            void setHeaderState ( QByteArray headerState );
            void setHeaderStretchLastSection ( bool value );
@@ -29,14 +31,15 @@ class ConfigData : public QObject {
   public slots:
 
   private :
-           int headerMinimumSectionSize;
-    QByteArray headerState;
-          bool headerStretchLastSection;
-           int headerTooltipDuration;
+           int headerMinimumSectionSize = 0;
+    QByteArray headerState = "";
+          bool headerStretchLastSection = false;
+           int headerTooltipDuration = 0;
            int id;
-           int language;
-          bool modified;
-           int modifiedCounter;
+           int language = 0;
+           int libraryView = 0;
+          bool modified = false;
+           //int modifiedCounter = 0;
 
           void setModified ();
 };

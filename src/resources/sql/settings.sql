@@ -7,3 +7,5 @@ CREATE TABLE `settings` (
   `headerStretchLastSection`	INTEGER NOT NULL,
   `headerTooltipDuration`	INTEGER NOT NULL
 );
+
+INSERT INTO settings ( language, libraryView, headerMinimumSectionSize, headerState, headerStretchLastSection, headerTooltipDuration ) VALUES ( 1, 0, 50, "", 1, 5 );

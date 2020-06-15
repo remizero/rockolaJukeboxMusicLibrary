@@ -8,6 +8,7 @@ RockolaMainWindow::RockolaMainWindow ( RockolaDbManager *dbConnection, QWidget *
   this->rockolaDbConnection = dbConnection;
   // Se carga la data de configuración de la aplicación.
   this->configData = RockolaUtils::loadSettings ( this->rockolaDbConnection->getConnection () );
+  this->languageMDL = RockolaUtils::loadCurrentLanguage ( this->rockolaDbConnection->getConnection (), this->configData->getLanguage () );
   // Se asigna un filtro para ordenar correctamente la vista de acuerdo al modelo establecido para la misma.
   proxyModel = new QSortFilterProxyModel;
   // Se configuran las cabeceras de la vista.
@@ -41,6 +42,11 @@ RockolaMainWindow::~RockolaMainWindow () {
 
 void RockolaMainWindow::closeEvent ( QCloseEvent *event ) {
 
+  QByteArray headerView = this->ui->view->header ()->saveState ();
+  //qInfo () << headerView;
+  //this->configData->setLanguage ( 2 );
+  this->configData->setHeaderState ( this->ui->view->header ()->saveState () );
+  RockolaUtils::saveSettings ( this->rockolaDbConnection->getConnection (), this->configData );
   event->accept ();
 }
 
@@ -56,13 +62,29 @@ void RockolaMainWindow::setRockolaDbConnection ( RockolaDbManager *value ) {
 
 void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataList ) {
 
+  // TODO Leer este tutorial completo
+  // https://doc.qt.io/qt-5/modelview.html
+
+
+
+
+  // TODO Para realizar cambios dinámicos en el modelo del QTreeView
+  // https://quabr.com/53405627/how-to-change-a-qtreeview-model-on-an-action-triggered-signal-in-pyqt5
+  // https://stackoverflow.com/questions/53405627/how-to-change-a-qtreeview-model-on-an-action-triggered-signal-in-pyqt5
+  // https://stackoverflow.com/questions/37972839/dynamic-qtreeview-with-custom-delegates
+  // https://stackoverflow.com/questions/16530384/qt-qtreeview-not-updating-when-adding-to-model
+  // https://www.qtcentre.org/threads/28082-QTreeView-own-model-dynamic-filling
+  // https://forum.qt.io/topic/17409/solved-qt-4-7-qcombobox-custom-item-delegate-doesn-t-affect-the-current-item-displayed/2
+  //
+  //
+
   for ( int i = 0; i < headersDataList.size (); ++i ) {
 
     switch ( RockolaUtils::getEnumHeadersValue ( headersDataList.at ( i ).getCodFrame ().toUtf8 ().constData () ) ) {
 
       case RockolaUtils::enumHeaders::UFID : { // Identificador único del archivo.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
 /*
         QList<ComboBoxItemModel> moodsDataModel = RockolaUtils::getMoodsData ( this->rockolaDbConnection->getConnection (), this->configData->getLanguage () );
         this->ui->view->setItemDelegateForColumn ( 29 , new ComboBoxDelegate ( moodsDataModel, this->ui->view ) );
@@ -77,7 +99,7 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TIT1 : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TIT2 : { // Título de la canción.
@@ -108,12 +130,12 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TSRC : { // ISRC International Standard Recording Code.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TSST : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TCOM : { // Compositor de la pista.
@@ -123,7 +145,7 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TENC : { // Nombre de la person u organización que codificó el archivo, puede contener copyright.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TEXT : { // Escritor de la canción.
@@ -133,12 +155,12 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TIPL : { // Lista de personas involucradas en la procucción de la grabación.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TMCL : { // Lista de músicos acreditados en la procucción de la grabación.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TOLY : { // Letrista original de la canción en el caso de ser una versión.
@@ -163,17 +185,17 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TPE3 : { //
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TPE4 : { // Nombre de las personas involucradas en el remix de la canción.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TXXX : { // Etiqueta para información del usuario.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TBPM : { // Bits por minutos de la canción.
@@ -181,9 +203,9 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
         // =====================================================================
         break;
       }
-      case RockolaUtils::enumHeaders::TCON : { // Tipo de contenido similar al género de las canciones.
+      case RockolaUtils::enumHeaders::TCON : { // Género de las canciones.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TFLT : { // Tipo de archivo definido por el mimetype del tipo de archivo, similar a TMED.
@@ -219,32 +241,32 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TCOP : { // Copyright.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TOWN : { // Nombre del propietario o licencia de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TPRO : { // Información del productor.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TPUB : { // Publicista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TRSN : { // Internet radio station name.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TRSO : { // Internet radio station owner.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TDEN : { // Fecha de codificación del archivo.
@@ -254,7 +276,7 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TDLY : { // milisegundos de silencio que deben ser insertados antes de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TDOR : { // Fecha de publicación original de la pista.
@@ -264,7 +286,7 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TDRC : { // Fecha de grabación de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TDRL : { // Fecha de la primera liberación de la pista.
@@ -274,7 +296,7 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TDTG : { // Fecha en que fue etiquetada la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TOFN : { // Nombre original de la pista.
@@ -289,92 +311,92 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::TSOP : { // Clasificación adicional para el interprete de la canción.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TSOT : { // Clasificación adicional para el título de la canción.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::TSSE : { // Software y hardware utilizado para la codificación de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WCOM : { // URL con información comercial de la pista o album.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WCOP : { // URL con información legal o copyright de la pista o album.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WOAF : { // URL de la página oficial del archivo de audio.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WOAR : { // URL de la página oficial del interprete o artista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WOAS : { // URL de la página oficial de la fuente del audio.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WORS : { // Official Internet radio station homepage
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WPAY : { // Página de pago del archivo o album.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WPUB : { // Página oficial del publicista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::WXXX : { // URL definido por el usuario.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::MCDI : { // Music CD identifier
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::ETCO : { // Event timing codes.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::MLLT : { // Referencias para calcular posiciones en el archivo.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::SYTC : { // Para describir mejor el tempo de la pieza.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::USLT : { // Contiene la letra de la canción.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::SYLT : { // Puede ser utilizado también pára la letra de la canción.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::COMM : { // Comentarios para agregar a la pista.
@@ -384,17 +406,17 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::RVA2 : { // Permite predefinir ajustes al volumen de la pista y otras cosas mas.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::EQU2 : { // Permite predefinir la ecualización de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::RVRB : { // Permite predefinir la reverb de la pista
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::APIC : { // Imágen a mostrar de la pista.
@@ -404,7 +426,7 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::GEOB : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::PCNT : { // Play counter.
@@ -419,72 +441,72 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
       }
       case RockolaUtils::enumHeaders::RBUF : { // Permite predefinir el tamaño del buffer de reprodución de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::AENC : { // indica si el flujo de audio real está encriptado y por quién.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::LINK : { // Enlace externo a archivo o URL que contiene la información de la pista.
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::POSS : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::USER : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::OWNE : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::COMR : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::ENCR : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::GRID : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::PRIV : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::SIGN : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::SEEK : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       case RockolaUtils::enumHeaders::ASPI : {
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
       }
       default:
 
-        this->ui->view->hideColumn ( i );
+        // this->ui->view->hideColumn ( i );
         break;
     }
   }
@@ -492,28 +514,33 @@ void RockolaMainWindow::setUpDelegates ( QList<RockolaHeaderData> headersDataLis
 
 void RockolaMainWindow::setUpHeaders () {
 
+  // TODO Como y donde hacer uso de esta información
+  this->libraryViewMDL = RockolaUtils::loadLibraryView ( this->rockolaDbConnection->getConnection (), this->configData->getLibraryView (), this->configData->getLanguage () );
+
   // Se carga la información de las cabeceras de la vista de la biblioteca
   this->headersDataList = RockolaUtils::loadHeaders ( this->rockolaDbConnection->getConnection (), this->configData->getLanguage () );
-  //QFile file ( ":/RockolaResources/resources/default.txt" );
-  //file.open ( QIODevice::ReadOnly );
+  QFile file ( ":/RockolaResources/resources/default.txt" );
+  file.open ( QIODevice::ReadOnly );
   // Se crea el modelo para el arbol QTreeView
-  this->rockolaTreeMDL = new RockolaTreeMDL ( this->headersDataList/*, file.readAll ()*/ );
-  //file.close ();
+  this->rockolaTreeMDL = new RockolaTreeMDL ( this->headersDataList, file.readAll () );
+  file.close ();
 
   // Se asignan algunos parámetros de configuración para la correcta visualización de la vista del arbol QTreeView
 
   // Se define que las cabeceras del permitirá un menú contextual personalizado.
   this->ui->view->header ()->setContextMenuPolicy ( Qt::CustomContextMenu );
   // Se define el tamaño mínimo permitido para cada columna del QTreeView.
-  // Se pudiera guardar en base de datos para que el usuario pueda jugar con este valor a gusto
   this->ui->view->header ()->setMinimumSectionSize ( this->configData->getHeaderMinimumSectionSize () );
   this->ui->view->header ()->setStretchLastSection ( this->configData->getHeaderStretchLastSection () );
   // Se asignan algunos parámetros de configuración para la correcta visualización de la vista del arbol QTreeView
   this->ui->view->header ()->setToolTipDuration ( this->configData->getHeaderTooltipDuration () );
 
-  if ( !this->ui->view->header ()->restoreState ( this->configData->getHeaderState () ) ) {
+  if ( !this->configData->getHeaderState ().isEmpty () ) {
 
-    // TODO Guardar un mensaje de error en el log de errores
-    qInfo () << "Aparentemente NO se restauró el estado anterior de las cabeceras";
+    if ( !this->ui->view->header ()->restoreState ( this->configData->getHeaderState () ) ) {
+
+      // TODO Guardar un mensaje de error en el log de errores
+      qInfo () << "Aparentemente NO se restauró el estado anterior de las cabeceras";
+    }
   }
 }

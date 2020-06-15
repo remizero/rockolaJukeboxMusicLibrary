@@ -3,13 +3,16 @@
 
 
 #include <QCloseEvent>
+#include <QFile>
 #include <QMainWindow>
 #include <QMenu>
 #include <QPoint>
 #include <QSortFilterProxyModel>
 
 #include "ComboBoxDelegate.h"
-#include "ConfigData.h"
+#include "ConfigDataMDL.h"
+#include "LanguageMDL.h"
+#include "LibraryViewMDL.h"
 #include "RockolaDbManager.h"
 #include "RockolaTreeMDL.h"
 #include "RockolaUtils.h"
@@ -38,10 +41,12 @@ class RockolaMainWindow : public QMainWindow {
   public slots:
 
   private:
-                  ConfigData *configData;
+               ConfigDataMDL *configData;
                        QMenu *contextualMenu;
                       QPoint columnIndex;
     QList<RockolaHeaderData> headersDataList;
+                 LanguageMDL *languageMDL;
+              LibraryViewMDL *libraryViewMDL;
        QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL
             RockolaDbManager *rockolaDbConnection;
               RockolaTreeMDL *rockolaTreeMDL;

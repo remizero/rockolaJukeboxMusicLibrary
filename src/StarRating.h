@@ -60,7 +60,7 @@
 class StarRating {
 
   public:
-    explicit StarRating ( int starCount = 1, int maxStarCount = 5 );
+    explicit StarRating ( int starCount = 0, int maxStarCount = 5 );
 
      enum EditMode { Editable, ReadOnly };
 

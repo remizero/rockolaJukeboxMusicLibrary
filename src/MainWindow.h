@@ -102,7 +102,7 @@ class MainWindow : public QMainWindow {
     void checkedUncheked ( bool signal, QAction *action );
 
   private:
-               ConfigData *configData;
+               ConfigDataMDL *configData;
                     QMenu *contextualMenu;
                    QPoint columnIndex;
     QSortFilterProxyModel *proxyModel; // PARA ORDENAR LAS COLUMNAS DE LA BIBLIOTECA MUSICAL

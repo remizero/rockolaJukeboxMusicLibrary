@@ -29,7 +29,6 @@ SOURCES += \
     src/MainWindow.cpp \
     src/RockolaDbManager.cpp \
     src/RockolaUtils.cpp \
-    src/ConfigData.cpp \
     src/RockolaHeaderData.cpp \
     src/RockolaTreeMDL.cpp \
     src/RockolaTreeItem.cpp \
@@ -40,13 +39,15 @@ SOURCES += \
     src/ComboBoxDelegate.cpp \
     src/SpinBoxDelegate.cpp \
     src/ComboBoxItemModel.cpp \
-    src/StarEditor.cpp
+    src/StarEditor.cpp \
+    src/ConfigDataMDL.cpp \
+    src/LibraryViewMDL.cpp \
+    src/LanguageMDL.cpp
 
 HEADERS += \
     src/MainWindow.h \
     src/RockolaDbManager.h \
     src/RockolaUtils.h \
-    src/ConfigData.h \
     src/RockolaHeaderData.h \
     src/RockolaTreeMDL.h \
     src/RockolaTreeItem.h \
@@ -57,7 +58,10 @@ HEADERS += \
     src/ComboBoxDelegate.h \
     src/SpinBoxDelegate.h \
     src/ComboBoxItemModel.h \
-    src/StarEditor.h
+    src/StarEditor.h \
+    src/ConfigDataMDL.h \
+    src/LibraryViewMDL.h \
+    src/LanguageMDL.h
 
 FORMS += \
     src/MainWindow.ui

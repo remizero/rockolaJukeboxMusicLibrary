@@ -202,9 +202,13 @@ void RockolaTreeMDL::setupModelData ( const QStringList &lines, RockolaTreeItem 
   indentations << 0;
   int number = 0;
 
+  qInfo () << "Contador de líneas leidas desde el archivo: " << lines.count ();
   while ( number < lines.count () ) {
 
+    // Este fragmento de código de 9 líneas es para determinar la identación y saber cuales son los hijos.
+    // Al cambiar el modelo se puede subtituir por el código respectivo.
     int position = 0;
+    //qInfo () << lines [ number ];
     while ( position < lines [ number ].length () ) {
 
       if ( lines [ number ].at ( position ) != ' ' ) {
@@ -222,12 +226,13 @@ void RockolaTreeMDL::setupModelData ( const QStringList &lines, RockolaTreeItem 
       for ( int column = 0; column < columnStrings.count (); ++column ) {
 
         columnData << columnStrings [ column ];
+        //qInfo () << columnStrings [ column ];
       }
       if ( position > indentations.last () ) {
 
-        // The last child of the current parent is now the new parent
-        // unless the current parent has no children.
-
+        qInfo () << "La posición es mayor que la indentación";
+        // The last child of the current parent is now the new parent unless the current parent has no children.
+        // El último hijo del padre actual es ahora el nuevo padre a menos que el padre actual no tenga hijos.
         if ( parents.last ()->childCount () > 0 ) {
 
           parents << parents.last ()->child ( parents.last ()->childCount () - 1 );
@@ -235,6 +240,7 @@ void RockolaTreeMDL::setupModelData ( const QStringList &lines, RockolaTreeItem 
         }
       } else {
 
+        qInfo () << "La posición no es mayor que la indentación";
         while ( position < indentations.last () && parents.count () > 0 ) {
 
           parents.pop_back ();
@@ -243,6 +249,10 @@ void RockolaTreeMDL::setupModelData ( const QStringList &lines, RockolaTreeItem 
       }
       // Append a new item to the current parent's list of children.
       RockolaTreeItem *parent = parents.last ();
+      qInfo () << "this->rootItem->columnCount (): " << this->rootItem->columnCount ();
+      qInfo () << "parent->childCount (): " << parent->childCount ();
+      //parent->data ();
+      qInfo () << "columnData.size (); " << columnData.size ();
       parent->insertChildren ( parent->childCount (), 1, this->rootItem->columnCount () );
       for ( int column = 0; column < columnData.size (); ++column ) {
 
